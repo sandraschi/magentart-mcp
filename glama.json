@@ -1,0 +1,37 @@
+{
+  "name": "magentart-mcp",
+  "version": "0.1.0",
+  "description": "Magenta RT real-time music generation MCP server",
+  "homepage": "https://github.com/sandraschi/magentart-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sandraschi/magentart-mcp.git"
+  },
+  "mcp": {
+    "entrypoint": "magentart_mcp.server",
+    "runtime": "python",
+    "standard": "3.1.0",
+    "tools": [
+      {
+        "name": "magentart_ops",
+        "description": "Portmanteau tool for music generation (status, generate, blend, continue, list)"
+      },
+      {
+        "name": "magentart_agentic_workflow",
+        "description": "Autonomous music creation goal fulfillment"
+      }
+    ],
+    "prompts": [
+      {
+        "name": "magentart_recommend_prompts",
+        "description": "Suggest prompts for different musical genres and moods"
+      }
+    ]
+  },
+  "capabilities": {
+    "sampling": true,
+    "prompts": true,
+    "skills": true,
+    "resources": true
+  }
+}

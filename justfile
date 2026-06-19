@@ -1,4 +1,6 @@
-﻿# magentart-mcp Justfile
+# magentart-mcp Justfile
+import 'scripts/just/fleet.just'
+# magentart-mcp Justfile
 # Windows/PowerShell compatible
 
 set shell := ["powershell", "-Command"]
@@ -42,4 +44,3 @@ models-setup:
 # Warm-load JAX model on GPU (slow first compile)
 load-model:
     uv run python -c "import asyncio; from magentart_mcp import engine; print(asyncio.run(engine.ensure_model_loaded()))"
-
