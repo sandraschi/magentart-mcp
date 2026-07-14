@@ -306,7 +306,7 @@ def main() -> None:
         transport = "http"
 
     if transport == "http":
-        app = mcp.http_app()
+        app = mcp.http_app(path="/")
         from fastapi.middleware.cors import CORSMiddleware
         app.add_middleware(
             CORSMiddleware,

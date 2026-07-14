@@ -1,4 +1,4 @@
-´╗┐Param([switch]$Headless)
+Â´â•-â”Param([switch]$Headless)
 
 # --- SOTA Headless Standard ---
 if ($Headless -and ($Host.UI.RawUI.WindowTitle -notmatch 'Hidden')) {
@@ -8,7 +8,7 @@ if ($Headless -and ($Host.UI.RawUI.WindowTitle -notmatch 'Hidden')) {
 $WindowStyle = if ($Headless) { 'Hidden' } else { 'Normal' }
 # ------------------------------
 
-# start.ps1 ├óÔé¼ÔÇØ Magenta RT Webapp launcher
+# start.ps1 â”œÃ³Ã”Ã©Â¼Ã”Ã‡Ã˜ Magenta RT Webapp launcher
 # Ports: Frontend 10898, Backend 10899
 $ErrorActionPreference = "Stop"
 $FrontPort = 10898
