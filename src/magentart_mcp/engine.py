@@ -17,7 +17,7 @@ import asyncio
 import os
 import time
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 
@@ -169,7 +169,7 @@ async def embed_audio(audio_path: str, correlation_id: str | None = None) -> lis
 
 async def embed_blend(
     prompts: list[str],
-    weights: Optional[list[float]] = None,
+    weights: list[float] | None = None,
     correlation_id: str | None = None,
 ) -> list[float]:
     del correlation_id
@@ -177,7 +177,7 @@ async def embed_blend(
         weights = [1.0 / len(prompts)] * len(prompts)
     embeddings = [np.array(await embed_text(p), dtype=np.float32) for p in prompts]
     total = sum(weights)
-    blended = sum(e * (w / total) for e, w in zip(embeddings, weights))
+    blended = sum(e * (w / total) for e, w in zip(embeddings, weights, strict=False))
     return blended.tolist()
 
 
@@ -185,7 +185,7 @@ async def generate_audio(
     style_embedding: list[float],
     num_chunks: int,
     output_path: str,
-    generation_kwargs: Optional[dict] = None,
+    generation_kwargs: dict | None = None,
     *,
     continue_from_state: bool = False,
 ) -> dict[str, Any]:
@@ -253,6 +253,6 @@ def _auto_filename(prefix: str) -> str:
     return f"{prefix}_{time.strftime('%Y%m%d-%H%M%S')}.wav"
 
 
-def output_path(filename: Optional[str], prefix: str) -> str:
+def output_path(filename: str | None, prefix: str) -> str:
     fname = filename or _auto_filename(prefix)
     return str(Path(OUTPUT_DIR) / fname)

@@ -1,7 +1,9 @@
-import pytest
 import json
 from unittest.mock import AsyncMock, patch
-from magentart_mcp.server import magentart_ops, OpsInput
+
+import pytest
+
+from magentart_mcp.server import OpsInput, magentart_ops
 
 
 @pytest.fixture

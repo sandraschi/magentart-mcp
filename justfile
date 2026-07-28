@@ -1,3 +1,5 @@
+set windows-shell := ["powershell.exe", "-NoProfile", "-Command"]
+
 # magentart-mcp Justfile
 import 'scripts/just/fleet.just'
 # magentart-mcp Justfile

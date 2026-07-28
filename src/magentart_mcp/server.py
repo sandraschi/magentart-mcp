@@ -9,9 +9,9 @@ from __future__ import annotations
 import json
 import logging
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Literal
 
-from fastmcp import FastMCP, Context
+from fastmcp import Context, FastMCP
 from fastmcp.server.providers import SkillsDirectoryProvider
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -60,7 +60,7 @@ def magentart_recommend_prompts(genre: str = "ambient") -> str:
 
 
 # Keep last style embedding in memory for 'continue' operations
-_last_style: Optional[list[float]] = None
+_last_style: list[float] | None = None
 
 # ── input models ─────────────────────────────────────────────────────────────
 
@@ -80,24 +80,22 @@ class OpsInput(BaseModel):
     ] = Field(..., description="The operation to perform.")
 
     # Parameters for 'generate' / 'blend' / 'continue'
-    prompt: Optional[str] = Field(None, description="Style description (for 'generate').")
-    prompts: Optional[list[str]] = Field(None, description="2–4 prompts to blend.")
-    weights: Optional[list[float]] = Field(None, description="Weights for blending.")
-    audio_path: Optional[str] = Field(
-        None, description="Source WAV path (for 'generate_from_audio')."
-    )
+    prompt: str | None = Field(None, description="Style description (for 'generate').")
+    prompts: list[str] | None = Field(None, description="2–4 prompts to blend.")
+    weights: list[float] | None = Field(None, description="Weights for blending.")
+    audio_path: str | None = Field(None, description="Source WAV path (for 'generate_from_audio').")
 
     duration_seconds: float = Field(default=8.0, ge=2.0, le=120.0)
-    output_filename: Optional[str] = Field(None, max_length=100)
-    temperature: Optional[float] = Field(None, ge=0.1, le=3.0)
-    guidance_weight: Optional[float] = Field(None, ge=0.0, le=7.0)
+    output_filename: str | None = Field(None, max_length=100)
+    temperature: float | None = Field(None, ge=0.1, le=3.0)
+    guidance_weight: float | None = Field(None, ge=0.0, le=7.0)
 
     # Parameters for 'list'
     limit: int = Field(default=20, ge=1, le=100)
 
     @field_validator("output_filename")
     @classmethod
-    def sanitize_filename(cls, v: Optional[str]) -> Optional[str]:
+    def sanitize_filename(cls, v: str | None) -> str | None:
         if v is None:
             return v
         for ch in r'\/:*?"<>|':
@@ -173,7 +171,9 @@ async def magentart_ops(params: OpsInput, ctx: Context) -> str:
         elif op == "reset":
             engine.reset_generation_state()
             _last_style = None
-            return json.dumps({"status": "ok", "message": "Style and streaming state reset."}, indent=2)
+            return json.dumps(
+                {"status": "ok", "message": "Style and streaming state reset."}, indent=2
+            )
 
         elif op == "generate":
             if not params.prompt:
@@ -210,7 +210,9 @@ async def magentart_ops(params: OpsInput, ctx: Context) -> str:
                 return '{"error": "no style active"}'
             n = engine.num_chunks(params.duration_seconds)
             out = engine.output_path(params.output_filename, "cont")
-            result = await engine.generate_audio(_last_style, n, out, _gen_kwargs(params), continue_from_state=True)
+            result = await engine.generate_audio(
+                _last_style, n, out, _gen_kwargs(params), continue_from_state=True
+            )
             return json.dumps(result, indent=2)
 
         elif op == "list":
@@ -285,7 +287,6 @@ async def magentart_agentic_workflow(params: AgenticWorkflowInput, ctx: Context)
 def main() -> None:
     """Entry point for the magentart-mcp console script."""
     import argparse
-    import sys
     import os
 
     logging.basicConfig(level=logging.INFO)
@@ -308,6 +309,7 @@ def main() -> None:
     if transport == "http":
         app = mcp.http_app(path="/")
         from fastapi.middleware.cors import CORSMiddleware
+
         app.add_middleware(
             CORSMiddleware,
             allow_origins=["*"],
