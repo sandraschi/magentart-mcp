@@ -46,3 +46,9 @@ models-setup:
 # Warm-load JAX model on GPU (slow first compile)
 load-model:
     uv run python -c "import asyncio; from magentart_mcp import engine; print(asyncio.run(engine.ensure_model_loaded()))"
+
+# Bootstrap: install dev deps + pre-commit hook
+bootstrap:
+    uv sync --group dev
+    uv run pre-commit install
+    Write-Host "Pre-commit hooks installed." -ForegroundColor Green
