@@ -28,10 +28,7 @@ test:
 
 # Lint and format code with Ruff
 lint:
-    uv run ruff check --fix .
-    Set-Location '{{justfile_directory()}}\webapp\frontend'
-    npx @biomejs/biome ci .
-    uv run ruff format .
+    uv run ruff check --fix .; Set-Location '{{justfile_directory()}}\webapp\frontend'; npx @biomejs/biome ci .; uv run ruff format .
 
 # Download MRT2 resources + checkpoint (first-time setup)
 models-init:
