@@ -1,4 +1,4 @@
-"""magentart_mcp.server — FastMCP 3.1 MCP server for Magenta RealTime 2.
+"""magentart_mcp.server - FastMCP 3.1 MCP server for Magenta RealTime 2.
 
 Uses the in-process JAX backend (magenta-rt[jax]) on NVIDIA GPUs. Apple Silicon
 with MLX is required only for live streaming (~200 ms) and MIDI control.
@@ -81,7 +81,7 @@ class OpsInput(BaseModel):
 
     # Parameters for 'generate' / 'blend' / 'continue'
     prompt: str | None = Field(None, description="Style description (for 'generate').")
-    prompts: list[str] | None = Field(None, description="2–4 prompts to blend.")
+    prompts: list[str] | None = Field(None, description="2-4 prompts to blend.")
     weights: list[float] | None = Field(None, description="Weights for blending.")
     audio_path: str | None = Field(None, description="Source WAV path (for 'generate_from_audio').")
 

@@ -1,4 +1,4 @@
-"""Magenta RT engine — in-process Magenta RealTime 2 via JAX.
+"""Magenta RT engine - in-process Magenta RealTime 2 via JAX.
 
 Architecture:
   magentart-mcp (FastMCP on Windows)
