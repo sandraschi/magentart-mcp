@@ -25,7 +25,7 @@ MODEL_NAME = os.environ.get("MAGENTA_RT_MODEL", "mrt2_base")
 MAGENTA_HOME = os.environ.get("MAGENTA_HOME", str(Path.home() / "Documents" / "Magenta"))
 OUTPUT_DIR = os.environ.get(
     "MAGENTA_RT_OUTPUT_DIR",
-    r"D:\Dev\repos\magentart-mcp\outputs",
+    str(Path(__file__).resolve().parents[2] / "outputs"),  # <repo>/outputs
 )
 
 FRAMES_PER_SECOND = 25
