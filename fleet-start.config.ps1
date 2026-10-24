@@ -2,8 +2,8 @@
 # Edit ports/backend target here - start.ps1 is fleet-standard.
 @{
     Name         = 'magentart-mcp'
-    BackendPort  = 0
-    FrontendPort = 0
+    BackendPort  = 10899
+    FrontendPort = 10898
     HealthPath   = '/health'
     WebRoot      = 'webapp\frontend'
     Backend = @{
