@@ -4,12 +4,18 @@
     Name         = 'magentart-mcp'
     BackendPort  = 10899
     FrontendPort = 10898
-    HealthPath   = '/health'
+    HealthPath   = '/api/status'
     WebRoot      = 'webapp\frontend'
     Backend = @{
-        Kind = 'none'
+        Kind          = 'uvicorn'
+        UvicornTarget = 'main:app'
+        WorkDir       = 'webapp\backend'
+        SyncExtras    = @('dev')
+        SyncOnStart   = $true
+        Env           = @{ WEB_PORT = '10899' }
     }
     Frontend = @{
-        Kind = 'none'
+        Kind           = 'vite-npm'
+        PackageManager = 'npm'
     }
 }
